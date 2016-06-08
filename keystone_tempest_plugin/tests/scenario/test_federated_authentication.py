@@ -112,13 +112,6 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
     def test_request_scoped_token(self):
         resp = self._request_unscoped_token()
         token_id = resp.headers['X-Subject-Token']
-        domains = self.auth_client.get_available_domains_scopes(token_id)[
-            'domains']
-        self.assertNotEmpty(domains)
-
-        # Get a scoped token to one of the listed domains
-        self.tokens_client.auth(
-            domain_id=domains[0]['id'], token=token_id)
 
         projects = self.auth_client.get_available_projects_scopes(token_id)[
             'projects']
