@@ -27,23 +27,30 @@ identity_feature_group = cfg.OptGroup(name='identity-feature-enabled',
 
 IdentityFeatureGroup = []
 
-scenario_group = cfg.OptGroup(name='scenario',
-                              title='Scenario Test Options')
+fed_scenario_group = cfg.OptGroup(name='fed_scenario',
+                                  title='Federation Scenario Tests Options')
 
-ScenarioGroup = [
-    cfg.StrOpt('fed_idp_id',
-               default='ipsilon',
+FedScenarioGroup = [
+    # Identity Provider
+    cfg.StrOpt('idp_id',
                help='Identity Provider ID'),
-    cfg.StrOpt('fed_protocol_id',
-               default='saml2',
-               help='Protocol ID'),
-    cfg.StrOpt('fed_idp_ecp_url',
-               default='https://ipa.rduartes.unknown.test/idp/saml2/SSO/SOAP',
-               help='Identity Provider SAML2/ECP URL'),
-    cfg.StrOpt('fed_idp_username',
-               default='admin',
+    cfg.StrOpt('idp_remote_ids',
+               default='',
+               help='The Identity Provider remote IDs'),
+    cfg.StrOpt('idp_username',
                help='Username used to login in the Identity Provider'),
-    cfg.StrOpt('fed_idp_password',
-               default='FreeIPA4All',
+    cfg.StrOpt('idp_password',
                help='Password used to login in the Identity Provider'),
+    cfg.StrOpt('idp_ecp_url',
+               help='Identity Provider SAML2/ECP URL'),
+
+    # Mapping rules
+    cfg.StrOpt('mapping_id',
+               help='Mapping Rules ID'),
+    cfg.StrOpt('mapping_remote_type',
+               help='The assertion attribute to be used in the remote rules'),
+
+    # Protocol
+    cfg.StrOpt('protocol_id',
+               help='Protocol ID'),
 ]

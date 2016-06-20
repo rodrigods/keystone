@@ -42,6 +42,35 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
 
     ECP_RELAY_STATE = '//ecp:RelayState'
 
+    def _setup_idp():
+        pass
+
+    def _setup_mapping():
+        rules = [{
+            'local': [
+                {
+                    'user': {'name': '{0}'}
+                },
+                {
+                    'group_ids': '{1}'
+                }
+            ],
+            'remote': [
+                {
+                    'type': 'openstack_username'
+                },
+                {
+                    'type': 'group_ids',
+                    'whitelist': ['abc', '123']
+                }
+
+            ]
+        }]
+        pass
+
+    def _setup_protocol():
+        pass
+
     def setUp(self):
         super(TestSaml2EcpFederatedAuthentication, self).setUp()
         self.keystone_v3_endpoint = CONF.identity.uri_v3
@@ -55,6 +84,9 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         self.saml2_client.reset_session()
 
         # TODO(rodrigods): proper setup, don't rely on the env.
+        self._setup_idp()
+        self._setup_mapping()
+        self._setup_protocol()
 
     def _assert_consumer_url(self, saml2_authn_request, idp_authn_response):
         sp_consumer_url = saml2_authn_request.xpath(
