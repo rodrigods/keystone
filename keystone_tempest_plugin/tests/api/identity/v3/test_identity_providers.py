@@ -15,8 +15,8 @@
 from tempest.lib.common.utils import data_utils
 from tempest.lib import decorators
 
+from keystone_tempest_plugin.tests.api.identity import base
 from keystone_tempest_plugin.tests.api.identity.v3 import fixtures
-from keystone_tempest_plugin.tests import base
 
 
 class IndentityProvidersTest(base.BaseIdentityTest):
@@ -114,6 +114,10 @@ class IndentityProvidersTest(base.BaseIdentityTest):
 
         # The identity provider should be disabled
         self.assertFalse(idp['enabled'])
+
+        idp_get = self.idps_client.show_identity_provider(
+            idp_id)['identity_provider']
+        self.assertFalse(idp_get['enabled'])
 
     def _assert_protocol_attributes(self, protocol, protocol_id,
                                     mapping_id=None):
