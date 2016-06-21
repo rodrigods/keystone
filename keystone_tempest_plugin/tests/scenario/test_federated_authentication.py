@@ -45,7 +45,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
 
     def _setup_idp(self):
         self.idp_id = data_utils.rand_uuid_hex()
-        remote_ids = CONF.fed_scenario.remote_ids
+        remote_ids = CONF.fed_scenario.idp_remote_ids
         if not remote_ids:
             remote_ids = []
 
