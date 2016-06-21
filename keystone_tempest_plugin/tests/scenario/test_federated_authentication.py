@@ -43,7 +43,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
 
     ECP_RELAY_STATE = '//ecp:RelayState'
 
-    def _setup_idp():
+    def _setup_idp(self):
         self.idp_id = data_utils.rand_uuid_hex()
         remote_ids = CONF.fed_scenario.idp_id
         if not remote_ids:
@@ -54,7 +54,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         self.addCleanup(
             self.idps_client.delete_identity_provider, idp_id)
 
-    def _setup_mapping():
+    def _setup_mapping(self):
         self.mapping_id = data_utils.rand_uuid_hex()
         mapping_remote_type = CONF.fed_scenario.mapping_remote_type
         mapping_user_id = CONF.fed_scenario.mapping_user_id
@@ -75,7 +75,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         self.addCleanup(
             self.mappings_client.delete_mapping_rule, self.mapping_id)
 
-    def _setup_protocol():
+    def _setup_protocol(self):
         self.protocol_id = data_utils.rand_uuid_hex()
         self.idps_client.add_protocol_and_mapping(
             self.idp_id, self.protocol_id, self.mapping_id)
