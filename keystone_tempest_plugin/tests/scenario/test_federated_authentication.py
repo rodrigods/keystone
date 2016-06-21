@@ -45,12 +45,8 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
 
     def _setup_idp(self):
         self.idp_id = CONF.fed_scenario.idp_id
-        remote_ids = CONF.fed_scenario.idp_remote_ids
-        if not remote_ids:
-            remote_ids = []
-
         self.idps_client.create_identity_provider(
-            self.idp_id, remote_ids=remote_ids, enabled=True)
+            self.idp_id, enabled=True)
         self.addCleanup(
             self.idps_client.delete_identity_provider, self.idp_id)
 
