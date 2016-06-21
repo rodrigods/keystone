@@ -50,9 +50,9 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
             remote_ids = []
 
         self.idps_client.create_identity_provider(
-            idp_id, remote_ids=remote_ids, enabled=True)
+            self.idp_id, remote_ids=remote_ids, enabled=True)
         self.addCleanup(
-            self.idps_client.delete_identity_provider, idp_id)
+            self.idps_client.delete_identity_provider, self.idp_id)
 
     def _setup_mapping(self):
         self.mapping_id = data_utils.rand_uuid_hex()
