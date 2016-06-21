@@ -73,10 +73,6 @@ class Saml2Client(object):
         self._prepare_sp_saml2_authn_response(
             saml2_idp_authn_response, relay_state)
 
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print('ASSERTION: %s', etree.tostring(saml2_idp_authn_response, pretty_print=True))
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-
         return self.session.post(
             idp_consumer_url,
             headers=self.ECP_SP_SAML2_REQUEST_HEADERS,

@@ -44,7 +44,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
     ECP_RELAY_STATE = '//ecp:RelayState'
 
     def _setup_idp(self):
-        self.idp_id = data_utils.rand_uuid_hex()
+        self.idp_id = CONF.fed_scenario.idp_id
         remote_ids = CONF.fed_scenario.idp_remote_ids
         if not remote_ids:
             remote_ids = []

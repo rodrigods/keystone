@@ -32,6 +32,8 @@ fed_scenario_group = cfg.OptGroup(name='fed_scenario',
 
 FedScenarioGroup = [
     # Identity Provider
+    cfg.StrOpt('idp_id',
+               help='The Identity Provider ID'),
     cfg.StrOpt('idp_remote_ids',
                default='',
                help='The Identity Provider remote IDs'),
