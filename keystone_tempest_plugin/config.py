@@ -34,6 +34,9 @@ FedScenarioGroup = [
     # Identity Provider
     cfg.StrOpt('idp_id',
                help='The Identity Provider ID'),
+    cfg.ListOpt('idp_remote_ids',
+                default=[],
+                help='The Identity Provider remote IDs list'),
     cfg.StrOpt('idp_username',
                help='Username used to login in the Identity Provider'),
     cfg.StrOpt('idp_password',
