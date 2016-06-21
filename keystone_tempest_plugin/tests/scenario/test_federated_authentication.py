@@ -80,7 +80,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         self.idps_client.add_protocol_and_mapping(
             self.idp_id, self.protocol_id, self.mapping_id)
         self.addCleanup(
-            self.idps_client.delete_protocol_and_mapping, idp_id, protocol_id)
+            self.idps_client.delete_protocol_and_mapping, self.idp_id, self.protocol_id)
 
     def setUp(self):
         super(TestSaml2EcpFederatedAuthentication, self).setUp()
@@ -89,7 +89,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         self.username = CONF.fed_scenario.idp_username
         self.password = CONF.fed_scenario.idp_password
 
-        # Reset client's session to avoid getting gargabe from another runs
+        # Reset client's session to avoid getting garbage from another runs
         self.saml2_client.reset_session()
 
         # Setup identity provider, mapping and protocol
