@@ -50,4 +50,9 @@ FedScenarioGroup = [
     cfg.StrOpt('mapping_group_id',
                help='The group ID to be used in the local rules. The group '
                     'must have at least one assignment in one project.'),
+
+    # Protocol
+    cfg.StrOpt('protocol_id',
+               default='saml2',
+               help='The Protocol ID')
 ]

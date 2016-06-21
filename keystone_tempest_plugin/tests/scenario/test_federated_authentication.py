@@ -76,7 +76,7 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
             self.mappings_client.delete_mapping_rule, self.mapping_id)
 
     def _setup_protocol(self):
-        self.protocol_id = data_utils.rand_uuid_hex()
+        self.protocol_id = CONF.fed_scenario.protocol_id
         self.idps_client.add_protocol_and_mapping(
             self.idp_id, self.protocol_id, self.mapping_id)
         self.addCleanup(
