@@ -32,8 +32,6 @@ fed_scenario_group = cfg.OptGroup(name='fed_scenario',
 
 FedScenarioGroup = [
     # Identity Provider
-    cfg.StrOpt('idp_id',
-               help='Identity Provider ID'),
     cfg.StrOpt('idp_remote_ids',
                default='',
                help='The Identity Provider remote IDs'),
@@ -45,12 +43,11 @@ FedScenarioGroup = [
                help='Identity Provider SAML2/ECP URL'),
 
     # Mapping rules
-    cfg.StrOpt('mapping_id',
-               help='Mapping Rules ID'),
     cfg.StrOpt('mapping_remote_type',
                help='The assertion attribute to be used in the remote rules'),
-
-    # Protocol
-    cfg.StrOpt('protocol_id',
-               help='Protocol ID'),
+    cfg.StrOpt('mapping_user_id',
+               help='The user ID to be used in the local rules'),
+    cfg.StrOpt('mapping_group_id',
+               help='The group ID to be used in the local rules. The group '
+                    'must have at least one assignment in one project.'),
 ]

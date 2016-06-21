@@ -15,6 +15,7 @@
 from lxml import etree
 
 from tempest import config
+from tempest.lib.common.utils import data_utils
 
 from keystone_tempest_plugin.tests import base
 
@@ -43,47 +44,55 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
     ECP_RELAY_STATE = '//ecp:RelayState'
 
     def _setup_idp():
-        pass
+        self.idp_id = data_utils.rand_uuid_hex()
+        remote_ids = CONF.fed_scenario.idp_id
+        if not remote_ids:
+            remote_ids = []
+
+        self.idps_client.create_identity_provider(
+            idp_id, remote_ids=remote_ids, enabled=True)
+        self.addCleanup(
+            self.idps_client.delete_identity_provider, idp_id)
 
     def _setup_mapping():
+        self.mapping_id = data_utils.rand_uuid_hex()
+        mapping_remote_type = CONF.fed_scenario.mapping_remote_type
+        mapping_user_id = CONF.fed_scenario.mapping_user_id
+        mapping_group_id = CONF.fed_scenario.mapping_group_id
+
         rules = [{
             'local': [
-                {
-                    'user': {'name': '{0}'}
-                },
-                {
-                    'group_ids': '{1}'
-                }
+                {'user': {'id': mapping_user_id}},
+                {'group': {'id': mapping_group_id}}
             ],
             'remote': [
-                {
-                    'type': 'openstack_username'
-                },
-                {
-                    'type': 'group_ids',
-                    'whitelist': ['abc', '123']
-                }
+                {'type': mapping_remote_type,}
 
             ]
         }]
-        pass
+        mapping_ref = {'rules': rules}
+        self.mappings_client.create_mapping_rule(self.mapping_id, mapping_ref)
+        self.addCleanup(
+            self.mappings_client.delete_mapping_rule, self.mapping_id)
 
     def _setup_protocol():
-        pass
+        self.protocol_id = data_utils.rand_uuid_hex()
+        self.idps_client.add_protocol_and_mapping(
+            self.idp_id, self.protocol_id, self.mapping_id)
+        self.addCleanup(
+            self.idps_client.delete_protocol_and_mapping, idp_id, protocol_id)
 
     def setUp(self):
         super(TestSaml2EcpFederatedAuthentication, self).setUp()
         self.keystone_v3_endpoint = CONF.identity.uri_v3
-        self.idp_url = CONF.scenario.fed_idp_ecp_url
-        self.username = CONF.scenario.fed_idp_username
-        self.password = CONF.scenario.fed_idp_password
-        self.idp_id = CONF.scenario.fed_idp_id
-        self.protocol_id = CONF.scenario.fed_protocol_id
+        self.idp_url = CONF.fed_scenario.idp_ecp_url
+        self.username = CONF.fed_scenario.idp_username
+        self.password = CONF.fed_scenario.idp_password
 
         # Reset client's session to avoid getting gargabe from another runs
         self.saml2_client.reset_session()
 
-        # TODO(rodrigods): proper setup, don't rely on the env.
+        # Setup identity provider, mapping and protocol
         self._setup_idp()
         self._setup_mapping()
         self._setup_protocol()
