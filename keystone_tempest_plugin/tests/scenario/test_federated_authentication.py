@@ -62,12 +62,17 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
 
         rules = [{
             'local': [
-                {'user': {'id': mapping_user_id}},
-                {'group': {'id': mapping_group_id}}
+                {
+                    'user': {'id': mapping_user_id}
+                },
+                {
+                    'group': {'id': mapping_group_id}
+                }
             ],
             'remote': [
-                {'type': mapping_remote_type,}
-
+                {
+                    'type': mapping_remote_type
+                }
             ]
         }]
         mapping_ref = {'rules': rules}
