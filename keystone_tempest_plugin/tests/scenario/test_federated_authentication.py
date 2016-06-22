@@ -46,11 +46,8 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
     def _setup_idp(self):
         self.idp_id = CONF.fed_scenario.idp_id
         remote_ids = CONF.fed_scenario.idp_remote_ids
-        idp = self.idps_client.create_identity_provider(
-            self.idp_id, remote_ids=remote_ids, enabled=True)['identity_provider']
-        print('#########################################')
-        print(idp)
-        print('#########################################')
+        self.idps_client.create_identity_provider(
+            self.idp_id, remote_ids=remote_ids, enabled=True)
         self.addCleanup(
             self.idps_client.delete_identity_provider, self.idp_id)
 
@@ -165,6 +162,10 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         projects = self.auth_client.get_available_projects_scopes(token_id)[
             'projects']
         self.assertNotEmpty(projects)
+
+        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+        print(projects)
+        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
         # Get a scoped token to one of the listed projects
         self.tokens_client.auth(
