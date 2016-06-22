@@ -159,13 +159,9 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
         resp = self._request_unscoped_token()
         token_id = resp.headers['X-Subject-Token']
 
-        projects = self.auth_client.get_available_projects_scopes(token_id)[
-            'projects']
+        projects = self.auth_client.get_available_projects_scopes(
+            self.keystone_v3_endpoint, token_id)['projects']
         self.assertNotEmpty(projects)
-
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-        print(projects)
-        print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
         # Get a scoped token to one of the listed projects
         self.tokens_client.auth(

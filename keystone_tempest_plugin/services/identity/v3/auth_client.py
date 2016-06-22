@@ -21,18 +21,20 @@ from keystone_tempest_plugin.services.identity import clients
 
 class AuthClient(clients.Identity):
 
-    def get_available_projects_scopes(self, token_id):
-        """Get projects that are available to be scoped to based on a token."""
-        resp, body = self.get(
-            'auth/projects', headers={'X-Auth-Token': token_id})
+    def _get_scopes(self, url, token_id):
+        resp, body = self.raw_request(
+            url, 'GET', headers={'X-Auth-Token': token_id})
         self.expected_success(200, resp.status)
         body = json.loads(body)
         return rest_client.ResponseBody(resp, body)
 
-    def get_available_domains_scopes(self, token_id):
+    def get_available_projects_scopes(self, keystone_v3_endpoint, token_id):
+        """Get projects that are available to be scoped to based on a token."""
+        url = '%s/auth/projects' % keystone_v3_endpoint
+        return self._get_scopes(url, token_id)
+
+    def get_available_domains_scopes(self, keystone_v3_endpoint, token_id):
         """Get domains that are available to be scoped to based on a token."""
-        resp, body = self.get(
-            'auth/domains', headers={'X-Auth-Token': token_id})
-        self.expected_success(200, resp.status)
-        body = json.loads(body)
-        return rest_client.ResponseBody(resp, body)
+        url = '%s/auth/domains' % keystone_v3_endpoint
+        return self._get_scopes(url, token_id)
+
