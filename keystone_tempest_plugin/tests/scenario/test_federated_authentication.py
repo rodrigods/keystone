@@ -46,8 +46,11 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
     def _setup_idp(self):
         self.idp_id = CONF.fed_scenario.idp_id
         remote_ids = CONF.fed_scenario.idp_remote_ids
-        self.idps_client.create_identity_provider(
-            self.idp_id, remote_ids=remote_ids, enabled=True)
+        idp = self.idps_client.create_identity_provider(
+            self.idp_id, remote_ids=remote_ids, enabled=True)['identity_provider']
+        print('#########################################')
+        print(idp)
+        print('#########################################')
         self.addCleanup(
             self.idps_client.delete_identity_provider, self.idp_id)
 
@@ -144,7 +147,8 @@ class TestSaml2EcpFederatedAuthentication(base.BaseIdentityTest):
                 sp_url))
         # We can receive multiple types of errors here, the response depends on
         # the mapping and the username used to authenticate in the identity
-        # provider. If everything works well, we receive an unscoped token.
+        # provider and also in the Identity Provider remote ID validation.
+        # If everything works well, we receive an unscoped token.
         self.assertEqual(201, resp.status_code)
         self.assertIn('X-Subject-Token', resp.headers)
         self.assertNotEmpty(resp.json())
